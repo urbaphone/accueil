@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UrbaPhone - Fermeture Définitive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: #ffffff; color: #1d1d1f; overflow-x: hidden; width: 100%; -webkit-text-size-adjust: 100%; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes flashRed { 0%, 100% { background: #ff3b30; } 50% { background: #cc0000; } }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+
+        /* Banner Liquidation Flash */
+        .liquidation-banner { background: #000; color: #fff; text-align: center; padding: 15px 10px; font-weight: 900; font-size: 20px; letter-spacing: 1px; border-bottom: 4px solid #ff3b30; text-transform: uppercase; }
+        .liquidation-banner span { color: #ff3b30; animation: blink 1s infinite; }
+
+        header { background: #ffffff; padding: 12px 25px; border-bottom: 1px solid #f0f0f2; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .logo img { height: 68px; width: auto; transition: transform 0.3s; }
+        .logo img:hover { transform: scale(1.05); }
+        .search-bar { display: flex; align-items: center; background: #f5f5f7; border-radius: 40px; padding: 4px 14px; width: 100%; max-width: 260px; transition: all 0.3s; border: 1px solid transparent; }
+        .search-bar:focus-within { background: #fff; border-color: #ff3b30; box-shadow: 0 4px 16px rgba(255,59,48,0.12); }
+        .search-bar i { color: #8e8e93; font-size: 14px; margin-right: 8px; }
+        .search-bar input { border: none; background: transparent; padding: 8px 0; width: 100%; outline: none; font-size: 13px; font-weight: 400; }
+        .cart-icon { position: relative; font-size: 24px; cursor: pointer; transition: transform 0.2s; }
+        #cartCount { background: #ff3b30; color: #fff; border-radius: 50%; padding: 2px 8px; font-size: 11px; position: absolute; top: -8px; right: -12px; font-weight: 700; }
+
+        .urgent-banner { animation: flashRed 1.5s infinite; color: #fff; text-align: center; padding: 12px 15px; font-weight: 800; font-size: 15px; letter-spacing: 0.5px; text-transform: uppercase; line-height: 1.4; }
+        .countdown-banner { background: linear-gradient(135deg, #0a0a0a, #1a1a1a); color: #fff; text-align: center; padding: 16px 0; border-bottom: 2px solid #ff3b30; }
+        .countdown-banner .timer span { font-size: 34px; font-weight: 800; background: #ff3b30; color: white; padding: 2px 16px; border-radius: 10px; margin: 0 3px; letter-spacing: 1px; }
+
+        .trust-badges { display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap; padding: 12px 0; background: #ffffff; border-bottom: 1px solid #f0f0f2; }
+        .trust-badges .badge { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #1d1d1f; font-weight: 500; }
+        .trust-badges .badge i { color: #ff3b30; font-size: 18px; }
+
+        .hero-banner { width: 100%; margin: 0; overflow: hidden; position: relative; }
+        .hero-banner img { width: 100%; height: auto; display: block; }
+
+        /* CAROUSEL SMARTPHONES DESKTOP */
+        .iphone-section { background: #ffffff; padding: 30px 20px; margin: 20px 0; border-radius: 35px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); position: relative; width: 100%; }
+        .iphone-section .section-title { font-size: 26px; font-weight: 800; text-align: center; margin-bottom: 25px; letter-spacing: -0.5px; text-transform: uppercase; }
+        
+        .iphone-carousel-container { position: relative; max-width: 1000px; margin: 0 auto; overflow: hidden; padding: 10px 5px; }
+        .iphone-carousel-wrapper { display: flex; gap: 16px; transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); width: 100%; }
+        
+        .iphone-card { min-width: calc(50% - 8px); max-width: calc(50% - 8px); background: #f9f9fb; border-radius: 28px; padding: 24px 18px 22px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.04); border: 1px solid #f0f0f2; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); position: relative; cursor: pointer; }
+        .iphone-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+        
+        .iphone-carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #ffffff; border: 1px solid #f0f0f2; border-radius: 50%; width: 46px; height: 46px; cursor: pointer; z-index: 10; font-size: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+        .iphone-carousel-btn:hover { background: #ff3b30; color: #fff; border-color: #ff3b30; }
+        .iphone-carousel-btn.p-prev { left: -5px; }
+        .iphone-carousel-btn.p-next { right: -5px; }
+
+        .iphone-card .stock-badge { position: absolute; top: 14px; left: 14px; background: #ff3b30; color: #fff; padding: 4px 14px; border-radius: 30px; font-size: 11px; font-weight: 700; z-index: 2; animation: blink 2s infinite; }
+        .image-container { background: #ffffff; border-radius: 20px; padding: 10px; height: 200px; display: flex; align-items: center; justify-content: center; }
+        .image-container img { max-height: 100%; max-width: 100%; object-fit: contain; }
+        .iphone-card h3 { font-size: 19px; font-weight: 700; margin: 8px 0 3px; }
+        .iphone-card .promo-tag { background: #ff3b30; color: #fff; padding: 2px 12px; border-radius: 30px; font-size: 10px; font-weight: 700; display: inline-block; margin-bottom: 6px; }
+        .iphone-card .price { font-weight: 800; color: #ff3b30; font-size: 26px; }
+        .iphone-card .old-price { text-decoration: line-through; color: #999; font-size: 16px; margin-left: 6px; }
+        .iphone-card .savings { color: #ff3b30; font-size: 15px; font-weight: 800; background: rgba(255,59,48,0.1); padding: 2px 6px; border-radius: 6px; }
+        .iphone-card select { width: 100%; padding: 8px 12px; margin: 8px 0 10px; border-radius: 14px; border: 1px solid #e5e5e7; font-size: 13px; background: #fff; cursor: pointer; }
+        .iphone-card .btn-add { background: #1d1d1f; color: #fff; border: none; padding: 12px; border-radius: 40px; border: 1px solid #1d1d1f; font-weight: 700; font-size: 15px; cursor: pointer; width: 100%; transition: all 0.3s; margin-top: 4px; }
+        .iphone-card .btn-add:hover { background: #ff3b30; border-color:#ff3b30; transform: scale(1.02); }
+        .iphone-card .urgency-text { font-size: 12px; color: #ff3b30; font-weight: 600; margin-top: 6px; }
+
+        /* BLOC DES AVIS GOOGLE */
+        .google-reviews-box { background: #f9f9fb; padding: 30px 20px; border-radius: 30px; margin: 25px 0; border: 1px solid #e5e5e7; width: 100%; overflow: hidden; }
+        .google-reviews-box h2 { font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .google-reviews-box h2 i { color: #4285F4; }
+        .reviews-list-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; width: 100%; }
+        .g-review-item { background: #fff; border-radius: 18px; padding: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #f0f0f2; word-wrap: break-word; overflow-wrap: break-word; }
+        .g-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; color: #666; gap: 10px; }
+        .g-name { font-weight: 700; color: #1d1d1f; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .g-stars { color: #ffcc00; font-size: 12px; margin-bottom: 6px; }
+        .g-text { font-size: 13.5px; line-height: 1.5; color: #333; }
+        .g-reply { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #eee; font-size: 12px; color: #008000; font-weight: 600; }
+        .full-width-review { grid-column: span 2; }
+
+        /* Store Stories */
+        .video-stories { background: #ffffff; padding: 20px 15px; border-radius: 30px; margin: 20px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+        .video-stories h2 { font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 16px; }
+        .stories-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 700px; margin: 0 auto; }
+        .story-bubble { background: #f5f5f7; border-radius: 24px; padding: 14px 8px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; }
+        .story-bubble .ring { width: 68px; height: 68px; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #ff3b30, #ff6b60, #ff9500); padding: 3px; }
+        .story-bubble .ring-inner { width: 100%; height: 100%; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+        .story-bubble .ring-inner i { color: #ff3b30; }
+
+        .video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 200; justify-content: center; align-items: center; }
+        .video-modal.active { display: flex; }
+        .video-modal-content { background: #fff; border-radius: 30px; padding: 20px; max-width: 750px; width: 94%; position: relative; }
+        .video-modal-close { position: absolute; top: 10px; right: 16px; font-size: 28px; cursor: pointer; background: none; border: none; }
+        .video-wrapper { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 20px; overflow: hidden; }
+
+        .flash-sale { background: linear-gradient(135deg, #1d1d1f, #000000); padding: 25px 20px; margin: 16px 0; border-radius: 28px; text-align: center; color: #fff; border: 2px solid #ff3b30; }
+        .flash-sale h2 { font-size: 28px; font-weight: 900; color: #ff3b30; }
+        .stock-counter { background: rgba(255,59,48,0.2); border: 1px solid #ff3b30; display: inline-block; padding: 6px 20px; border-radius: 40px; font-size: 14px; margin-top: 10px; color: #ff6b60; font-weight: 700; animation: blink 1.5s infinite; }
+
+        /* Overlay Fiche Produit */
+        .product-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 150; justify-content: center; align-items: center; padding: 20px; }
+        .product-overlay.active { display: flex; }
+        .product-page { background: #fff; border-radius: 40px; max-width: 1000px; width: 100%; padding: 35px; max-height: 90vh; overflow-y: auto; position: relative; }
+        .product-page-close { position: sticky; top: 0; float: right; font-size: 30px; cursor: pointer; background: none; border: none; }
+        .product-page-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .product-page-image { background: #f9f9fb; border-radius: 30px; padding: 20px; display: flex; align-items: center; justify-content: center; }
+        .product-page-image img { max-width: 100%; max-height: 400px; object-fit: contain; }
+        .product-page-info h1 { font-size: 32px; font-weight: 800; }
+        .product-page-info .price-big { font-size: 36px; font-weight: 800; color: #ff3b30; margin: 10px 0; }
+        .product-page-info .old-price-big { text-decoration: line-through; color: #999; font-size: 22px; margin-left: 10px; }
+        .product-page-info .specs { background: #f5f5f7; border-radius: 20px; padding: 20px; margin: 15px 0; }
+        .product-page-info .btn-add-big { background: #ff3b30; color: #fff; border: none; padding: 16px 40px; border-radius: 40px; font-weight: 700; font-size: 18px; cursor: pointer; width: 100%; }
+
+        .shop-photo { margin: 20px auto; text-align: center; max-width: 1000px; border-radius: 35px; overflow: hidden; border: 2px solid #ff3b30; }
+        .shop-photo img { width: 100%; display: block; }
+
+        /* Avis Captures d'écran originaux */
+        .reviews-carousel { background: #ffffff; padding: 35px 20px; border-radius: 35px; margin: 30px 0; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.04); width: 100%; }
+        .carousel-wrapper { display: flex; transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1); width: 100%; }
+        .carousel-slide { min-width: 33.333%; padding: 0 10px; }
+        .carousel-slide img { width: 100%; border-radius: 20px; border: 1px solid #f0f0f2; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #ffffff; border: 1px solid #f0f0f2; border-radius: 50%; width: 42px; height: 42px; cursor: pointer; z-index: 10; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+        .carousel-btn.prev { left: 8px; }
+        .carousel-btn.next { right: 8px; }
+
+        .partners-bottom { background: #ffffff; padding: 20px 15px; border-radius: 30px; margin: 25px 0 10px; text-align: center; }
+        .partners-bottom .logos { display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap; }
+        .partners-bottom .logos img { height: 40px; width: auto; opacity: 0.7; filter: grayscale(100%); }
+
+        .legal-section { background: #ffffff; border-radius: 35px; padding: 30px; margin: 30px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+        .legal-section h2 { font-size: 24px; font-weight: 800; margin-bottom: 16px; }
+        .legal-section p { color: #444; line-height: 1.7; font-size: 14px; }
+
+        /* Panier */
+        .cart-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(6px); z-index: 100; }
+        .cart-sidebar { position: fixed; top: 0; right: 0; width: 400px; max-width: 92%; height: 100%; background: #ffffff; z-index: 101; padding: 25px 20px; overflow-y: auto; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+        .cart-sidebar.open { transform: translateX(0); }
+        .cart-close { float: right; font-size: 26px; cursor: pointer; }
+        .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f2; }
+        .cart-total { font-size: 20px; font-weight: 800; margin: 20px 0 12px; }
+        .free-shipping { background: #fff0f0; border: 1px dashed #ff3b30; padding: 14px; border-radius: 18px; margin: 14px 0; }
+        .progress-bar { height: 5px; background: #e5e5e5; border-radius: 10px; margin: 10px 0; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #ff3b30, #ff6b60); width: 0%; transition: width 0.6s ease; }
+        .timer-10min { font-weight: 700; color: #ff3b30; font-size: 14px; }
+        .btn-checkout { background: linear-gradient(135deg, #ff3b30, #cc0000); color: #fff; border: none; padding: 16px; width: 100%; border-radius: 40px; font-size: 17px; font-weight: 700; cursor: pointer; }
+
+        /* PAYMENT LOADER SSL SECURISE */
+        .payment-loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 300; justify-content: center; align-items: center; flex-direction: column; }
+        .payment-loader.active { display: flex; }
+        .payment-loader .spinner { width: 60px; height: 60px; border: 5px solid #f0f0f2; border-top: 5px solid #28a745; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 30px; }
+        .payment-loader h2 { font-size: 22px; font-weight: 700; color: #1d1d1f; text-align: center; padding: 0 20px; }
+        .payment-loader p { color: #666; margin-top: 10px; font-size: 14px; }
+
+        footer { background: #1d1d1f; color: #fff; padding: 28px 0; text-align: center; margin-top: 30px; width: 100%; }
+        footer a { color: #8e8e93; text-decoration: none; margin: 0 10px; font-size: 13px; }
+
+        /* ULTRA FIX MOBILE SANS BORDURES BLANCHES ET CAROUSEL PARFAIT */
+        @media (max-width: 768px) {
+            header { padding: 10px 14px; }
+            .logo img { height: 48px; }
+            .search-bar { max-width: 130px; }
+            
+            /* Supprime les bordures blanches sur les côtés du carrousel */
+            .iphone-section { padding: 25px 0 25px 15px; border-radius: 0; box-shadow: none; margin: 10px 0; }
+            .iphone-carousel-container { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding: 10px 0; margin-right: -20px; }
+            .iphone-carousel-container::-webkit-scrollbar { display: none; }
+            .iphone-carousel-wrapper { gap: 12px; width: max-content; }
+            
+            /* 75vw de large = le 2ème iPhone dépasse d'environ 15vw sur le côté ! */
+            .iphone-card { min-width: 75vw; max-width: 75vw; scroll-snap-align: start; padding: 18px 12px; }
+            .image-container { height: 160px; }
+            .iphone-card h3 { font-size: 17px; }
+            .iphone-card .price { font-size: 22px; }
+            
+            .iphone-carousel-btn { display: none; } 
+            .reviews-list-grid { grid-template-columns: 1fr; }
+            .full-width-review { grid-column: span 1; }
+            .carousel-slide { min-width: 100%; }
+            .countdown-banner .timer span { font-size: 22px; padding: 2px 8px; }
+            .cart-sidebar { width: 100%; }
+            .product-page-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="liquidation-banner">🚨 <span>LIQUIDATION TOTALE AVANT FERMETURE DÉFINITIVE</span> 🚨</div>
+
+    <div class="urgent-banner">
+        ⚠️ TOUT DOIT DISPARAÎTRE ! RENDEZ-NOUS VISITE À NOTRE BOUTIQUE : 1 Place de Beaubreuil, Centre commercial Carrefour, 87280 Limoges OU COMMANDEZ EN LIGNE AVANT FERMETURE DES PORTES ⚠️
+    </div>
+
+    <div class="countdown-banner">
+        <div class="timer">
+            <span id="days">00</span> : <span id="hours">00</span> : <span id="minutes">58</span> : <span id="seconds">58</span>
+        </div>
+    </div>
+
+    <div class="trust-badges">
+        <div class="badge"><i class="fas fa-truck"></i> Livraison offerte dès 30€</div>
+        <div class="badge"><i class="fas fa-lock"></i> Protocole SSL Sécurisé</div>
+        <div class="badge"><i class="fas fa-star"></i> 4.9/5 Google Avis</div>
+    </div>
+
+    <header>
+        <div class="logo"><img src="https://i.ibb.co/VWbQ70HL/IMG-9743.jpg" alt="UrbaPhone Logo"></div>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Rechercher..." oninput="searchProduct()">
+        </div>
+        <div class="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="cartCount">0</span>
+        </div>
+    </header>
+
+    <div class="hero-banner"><img src="https://i.ibb.co/fGTj83qn/IMG-9742.jpg" alt="Bannière"></div>
+
+    <div class="container">
+        <div class="iphone-section" id="products-section">
+            <h2 class="section-title">PRODUITS EN LIQUIDATION</h2>
+            
+            <div class="iphone-carousel-container">
+                <button class="iphone-carousel-btn p-prev" id="iphonePrevBtn"><i class="fas fa-chevron-left"></i></button>
+                <button class="iphone-carousel-btn p-next" id="iphoneNextBtn"><i class="fas fa-chevron-right"></i></button>
+                
+                <div class="iphone-carousel-wrapper" id="iphoneCarouselWrapper">
+                    <div class="iphone-card" data-name="iPhone 17" data-baseprice="900" data-finalprice="80.00" data-search="iphone 17" onclick="openProductPage('iphone17')">
+                        <div class="stock-badge">🔥 LIQUIDATION STOCK</div>
+                        <div class="image-container"><img id="img17" src="https://media.ldlc.com/r1600/ld/products/00/06/27/51/LD0006275104_0006275154.jpg" alt="iPhone 17"></div>
+                        <h3>iPhone 17</h3>
+                        <span class="promo-tag">LIQUIDATION -91%</span>
+                        <div><span class="price">80,00€</span><span class="old-price">900€</span> <span class="savings">-91%</span></div>
+                        <select class="color-select" onclick="event.stopPropagation();" onchange="change17Image(this.value)">
+                            <option value="noir">Noir</option>
+                            <option value="lavande">Lavande</option>
+                            <option value="brume">Brume</option>
+                        </select>
+                        <div class="rating">⭐ 4.8/5</div>
+                        <button class="btn-add" onclick="event.stopPropagation(); addToCart(this)"><i class="fas fa-cart-plus"></i> Profiter de l'offre</button>
+                        <div class="urgency-text">🔥 Prix sacrifié</div>
+                    </div>
+
+                    <div class="iphone-card" data-name="iPhone 17 Pro Max" data-baseprice="1000" data-finalprice="109.00" data-search="iphone 17 pro max" onclick="openProductPage('proMax')">
+                        <div class="stock-badge">🔥 DERNIER STOCK</div>
+                        <div class="image-container"><img id="imgProMax" src="https://media.hifi.lu/sys-master/products/9549240664094/3840x3840.51007524_01.webp" alt="iPhone 17 Pro Max"></div>
+                        <h3>iPhone 17 Pro Max</h3>
+                        <span class="promo-tag">LIQUIDATION -89%</span>
+                        <div><span class="price">109,00€</span><span class="old-price">1000€</span> <span class="savings">-89%</span></div>
+                        <select class="color-select" onclick="event.stopPropagation();" onchange="changeProMaxImage(this.value)">
+                            <option value="orange">Orange Cosmique</option>
+                            <option value="bleu">Bleu Intense</option>
+                            <option value="argent">Argent</option>
+                        </select>
+                        <div class="rating">⭐ 4.9/5</div>
+                        <button class="btn-add" onclick="event.stopPropagation(); addToCart(this)"><i class="fas fa-cart-plus"></i> Profiter de l'offre</button>
+                        <div class="urgency-text">⏳ Stock presque épuisé</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="google-reviews-box animate-on-scroll">
+            <h2><i class="fab fa-google"></i> AVIS CLIENTS - NOTRE BOUTIQUE DE LIMOGES (4.9/5)</h2>
+            <div class="reviews-list-grid">
+                <div class="g-review-item">
+                    <div class="g-meta"><span class="g-name">Marie Paule Chevalier</span><span>12/06/2026</span></div>
+                    <div class="g-stars">★★★★★</div>
+                    <p class="g-text">Super et vendeurs très gentils</p>
+                    <div class="g-reply">✓ Réponse du magasin</div>
+                </div>
+                <div class="g-review-item">
+                    <div class="g-meta"><span class="g-name">Marie Claude</span><span>29/05/2026</span></div>
+                    <div class="g-stars">★★★★★</div>
+                    <p class="g-text">Bon accueil, charmant jeunes gens</p>
+                    <div class="g-reply">✓ Réponse du magasin</div>
+                </div>
+                <div class="g-review-item">
+                    <div class="g-meta"><span class="g-name">Stephanie Christophe DURIGON MORIAU</span><span>23/05/2026</span></div>
+                    <div class="g-stars">★★★★★</div>
+                    <p class="g-text">Très bon accueil et excellent conseils du vendeur. Très bonnes explications et surtout il a été très à l'écoute de nos demandes</p>
+                    <div class="g-reply">✓ Réponse du magasin</div>
+                </div>
+                <div class="g-review-item">
+                    <div class="g-meta"><span class="g-name">Comeairdelimoges Comeairdelimoges</span><span>18/05/2026</span></div>
+                    <div class="g-stars">★★★★★</div>
+                    <p class="g-text">Très bon accueil, très sympas et patients je valide</p>
+                    <div class="g-reply">✓ Réponse du magasin</div>
+                </div>
+                <div class="g-review-item">
+                    <div class="g-meta"><span class="g-name">Ginie</span><span>16/05/2026</span></div>
+                    <div class="g-stars">★★★★★</div>
+                    <p class="g-text">Très bon accueil, bons conseils, serviables. Ne poussent pas à la consommation</p>
+                    <div class="g-reply">✓ Réponse du magasin</div>
+                </div>
+                <div class="g-review-item">
+                    <div class="g-meta"><span class="g-name">cindy grimaud</span><span>21/03/2026</span></div>
+                    <div class="g-stars">★★★★★</div>
+                    <p class="g-text">Très bons conseils. Vendeur très professionnel</p>
+                    <div class="g-reply">✓ Réponse du magasin</div>
+                </div>
+                <div class="g-review-item">
+                    <div class="g-meta"><span class="g-name">Amridine Mohamed</span><span>12/03/2026</span></div>
+                    <div class="g-stars">★★★★★</div>
+                    <p class="g-text">Super bien</p>
+                    <div class="g-reply">✓ Réponse du magasin</div>
+                </div>
+                <div class="g-review-item">
+                    <div class="g-meta"><span class="g-name">Charlotte Gardet</span><span>06/03/2026</span></div>
+                    <div class="g-stars">★★★★★</div>
+                    <p class="g-text">merci à Quentin et Enzo pour leurs conseils et leurs économies je conseil fortement cette boutique</p>
+                    <div class="g-reply">✓ Réponse du magasin</div>
+                </div>
+                <div class="g-review-item full-width-review">
+                    <div class="g-meta"><span class="g-name">Sandrine Lucas</span><span>26/02/2026</span></div>
+                    <div class="g-stars">★★★★★</div>
+                    <p class="g-text">Accueil boutique très agréable, bons conseils. Personnel qui s’adapte au client. S’occupe de A à Z des démarches. J’en suis à mon 5eme téléphone chez eux, neuf et reconditionné, aucun souci avec.</p>
+                    <div class="g-reply">✓ Réponse du magasin</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="video-stories animate-on-scroll">
+            <h2>🎬 RETOURS VIDÉOS DE NOS CLIENTS</h2>
+            <div class="stories-grid">
+                <div class="story-bubble" onclick="openVideo('@adem.zk','https://streamable.com/e/09nk6j')">
+                    <div class="ring"><div class="ring-inner"><i class="fas fa-play"></i></div></div>
+                    <span class="handle">@adem.zk</span>
+                </div>
+                <div class="story-bubble" onclick="openVideo('@amir.dns','https://streamable.com/e/2bgq8l')">
+                    <div class="ring"><div class="ring-inner"><i class="fas fa-play"></i></div></div>
+                    <span class="handle">@amir.dns</span>
+                </div>
+                <div class="story-bubble" onclick="openVideo('@atena','https://streamable.com/e/wzvtcu')">
+                    <div class="ring"><div class="ring-inner"><i class="fas fa-play"></i></div></div>
+                    <span class="handle">@atena</span>
+                </div>
+                <div class="story-bubble" onclick="openVideo('@ilyessdrd','https://streamable.com/e/kryajp')">
+                    <div class="ring"><div class="ring-inner"><i class="fas fa-play"></i></div></div>
+                    <span class="handle">@ilyessdrd</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-content">
+            <button class="video-modal-close" onclick="closeVideo()">&times;</button>
+            <div class="video-wrapper" id="videoWrapper"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="flash-sale animate-on-scroll">
+            <h2>⚡ TOUT DOIT DISPARAÎTRE ⚡</h2>
+            <div class="stock-counter">🔴 Plus que quelques pièces disponibles en ligne et à Limoges</div>
+        </div>
+    </div>
+
+    <div class="product-overlay" id="productOverlay" onclick="if(event.target===this) closeProductPage()">
+        <div class="product-page" id="productPage">
+            <button class="product-page-close" onclick="closeProductPage()">&times;</button>
+            <div class="product-page-grid">
+                <div class="product-page-image"><img id="productPageImage" src="" alt="Produit"></div>
+                <div class="product-page-info">
+                    <h1 id="productPageTitle">iPhone 17 Pro Max</h1>
+                    <div><span class="price-big" id="productPagePrice">109,00€</span><span class="old-price-big" id="productPageOldPrice">1000€</span></div>
+                    <p class="description" id="productPageDesc"></p>
+                    <div class="specs">
+                        <h3>📱 Fiche technique</h3>
+                        <ul id="specsList"></ul>
+                    </div>
+                    <button class="btn-add-big" onclick="addFromProductPage()"><i class="fas fa-cart-plus"></i> Ajouter au panier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="shop-photo animate-on-scroll"><img src="https://i.ibb.co/HDgnmQNs/IMG-9505.webp" alt="Notre boutique"></div>
+    </div>
+
+    <div class="container">
+        <div class="reviews-carousel animate-on-scroll">
+            <div class="carousel-wrapper" id="carouselWrapper">
+                <div class="carousel-slide"><img src="https://i.ibb.co/8Lq2mvQP/IMG-9741.jpg" alt="Avis 1"></div>
+                <div class="carousel-slide"><img src="https://i.ibb.co/jkddGkGs/IMG-9740.jpg" alt="Avis 2"></div>
+                <div class="carousel-slide"><img src="https://i.ibb.co/Tq8p2HWM/IMG-9739.jpg" alt="Avis 3"></div>
+            </div>
+            <button class="carousel-btn prev" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-btn next" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="partners-bottom animate-on-scroll">
+            <div class="logos">
+                <img src="https://images.seeklogo.com/logo-png/50/1/back-market-logo-png_seeklogo-507107.png" alt="BackMarket">
+                <img src="https://esims.imgix.net/logos/logo-bouygues.png" alt="Bouygues">
+                <img src="https://logo-marque.com/wp-content/uploads/2021/03/Fnac-Logo.png" alt="Fnac">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="legal-section animate-on-scroll">
+            <h2>📜 Conditions de Vente & Retrait</h2>
+            <p>Retrait immédiat disponible à notre boutique : <strong>1 Place de Beaubreuil, Centre commercial Carrefour, 87280 Limoges</strong> ou en livraison sécurisée à domicile.</p>
+            <p style="margin-top:10px;">Garantie légale de conformité et droit de rétractation de 30 jours assurés.</p>
+        </div>
+    </div>
+
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <span class="cart-close" onclick="toggleCart()">&times;</span>
+        <h2>🛒 Votre Panier</h2>
+        <div id="cartItems"><p style="color:#999;">Votre panier est vide.</p></div>
+        <div class="free-shipping">
+            <strong>🚚 LIVRAISON EXPRESS OFFERTE</strong>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <span id="progressText" style="font-size:13px;">Ajoutez un article</span>
+        </div>
+        <div class="timer-10min">⏳ Réservation temporaire : <span id="timer10min">10:00</span></div>
+        <div class="cart-total">Total: <span id="cartTotal">0,00€</span></div>
+        <button class="btn-checkout" onclick="redirectToPayment()">Confirmer & Régler</button>
+    </div>
+
+    <div class="payment-loader" id="paymentLoader">
+        <div class="spinner"></div>
+        <h2>🔒 CONNEXION PROTOCOLE SSL URBAPAY...</h2>
+        <p>Génération de la passerelle de paiement cryptée 256-bits. Veuillez patienter.</p>
+    </div>
+
+    <footer>
+        <p>© 2026 UrbaPhone Liquidation - 1 Place de Beaubreuil, Limoges</p>
+        <p><a href="#">Mentions légales</a> | <a href="#">CGV</a> | <a href="mailto:support@urbaphone.fr">support@urbaphone.fr</a></p>
+    </footer>
+
+    <script>
+        const proMaxImages = {
+            orange: 'https://media.hifi.lu/sys-master/products/9549240664094/3840x3840.51007524_01.webp',
+            bleu: 'https://media.secure-mobiles.com/product-images/17XPA3.1.responsive-lg.centre.png',
+            argent: 'https://cdn.movertix.com/media/catalog/product/cache/image/1200x/i/p/iphone-17-pro-max-silver-512gb_1.jpg'
+        };
+        const iphone17Images = {
+            noir: 'https://media.ldlc.com/r1600/ld/products/00/06/27/51/LD0006275104_0006275154.jpg',
+            lavande: 'https://media.bechtle.com/is/180712/1c4b3d4ee288fc9434f5175bf56070570/c3/-/89daa7491c04413f963514cd78b78388?version=0&x=3840&quality=75',
+            brume: 'https://media.ldlc.com/r1600/ld/products/00/06/27/51/LD0006275124.jpg'
+        };
+        function changeProMaxImage(c) { document.getElementById('imgProMax').src = proMaxImages[c]; }
+        function change17Image(c) { document.getElementById('img17').src = iphone17Images[c]; }
+
+        const pWrapper = document.getElementById('iphoneCarouselWrapper');
+        let pIdx = 0;
+        document.getElementById('iphoneNextBtn').onclick = () => { if(pIdx < 1 && window.innerWidth > 768) { pIdx++; pWrapper.style.transform = `translateX(calc(-${pIdx * 50}% - ${pIdx * 8}px))`; } };
+        document.getElementById('iphonePrevBtn').onclick = () => { if(pIdx > 0 && window.innerWidth > 768) { pIdx--; pWrapper.style.transform = `translateX(0px)`; } };
+
+        const productData = {
+            proMax: {
+                title: 'iPhone 17 Pro Max', price: '109,00€', oldPrice: '1000€',
+                image: 'https://media.hifi.lu/sys-master/products/9549240664094/3840x3840.51007524_01.webp',
+                desc: 'Finition Titane premium. Modèle ultime de la gamme en déstockage.',
+                specs: [['Écran', '6,9" Super Retina'], ['Capacité', '256 Go']]
+            },
+            iphone17: {
+                title: 'iPhone 17', price: '80,00€', oldPrice: '900€',
+                image: 'https://media.ldlc.com/r1600/ld/products/00/06/27/51/LD0006275104_0006275154.jpg',
+                desc: 'Hautes performances au quotidien. Édition standard 2026.',
+                specs: [['Écran', '6,1" Super Retina'], ['Capacité', '128 Go']]
+            }
+        };
+
+        function openProductPage(id) {
+            const data = productData[id];
+            document.getElementById('productPageImage').src = data.image;
+            document.getElementById('productPageTitle').textContent = data.title;
+            document.getElementById('productPagePrice').textContent = data.price;
+            document.getElementById('productPageOldPrice').textContent = data.oldPrice;
+            document.getElementById('productPageDesc').textContent = data.desc;
+            const sl = document.getElementById('specsList'); sl.innerHTML = '';
+            data.specs.forEach(s => { sl.innerHTML += `<li><span>${s[0]}</span><span>${s[1]}</span></li>`; });
+            document.getElementById('productOverlay').style.display = 'flex';
+        }
+        function closeProductPage() { document.getElementById('productOverlay').style.display = 'none'; }
+
+        function searchProduct() {
+            const q = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.iphone-card');
+            cards.forEach(c => {
+                const d = c.dataset.search || c.dataset.name.toLowerCase();
+                c.style.display = (!q || d.includes(q)) ? 'block' : 'none';
+            });
+        }
+
+        function openVideo(handle, embedUrl) {
+            document.getElementById('videoModal').classList.add('active');
+            document.getElementById('videoWrapper').innerHTML = `<iframe src="${embedUrl}?autoplay=1" allow="autoplay; fullscreen" allowfullscreen style="border:none; width:100%; height:100%; position:absolute; top:0; left:0;"></iframe>`;
+        }
+        function closeVideo() { document.getElementById('videoModal').classList.remove('active'); document.getElementById('videoWrapper').innerHTML = ''; }
+
+        let cart = [];
+        let timer10 = 600;
+
+        function addToCart(btn) {
+            const card = btn.closest('.iphone-card');
+            const name = card.dataset.name;
+            const base = parseFloat(card.dataset.baseprice);
+            const final = parseFloat(card.dataset.finalprice);
+            const color = card.querySelector('.color-select')?.value || 'Standard';
+
+            if (cart.length >= 2) { alert('Limite de 2 smartphones autorisée.'); return; }
+            cart.push({ name, base, final, color });
+            updateCartUI();
+            toggleCart();
+        }
+
+        function addFromProductPage() {
+            const title = document.getElementById('productPageTitle').textContent;
+            const card = document.querySelector(`.iphone-card[data-name="${title}"]`);
+            if (card) { addToCart(card.querySelector('.btn-add')); closeProductPage(); }
+        }
+
+        function updateCartUI() {
+            const c = document.getElementById('cartItems');
+            if (!cart.length) {
+                c.innerHTML = '<p style="color:#999;">Votre panier est vide.</p>';
+                document.getElementById('cartTotal').textContent = '0,00€';
+                document.getElementById('cartCount').textContent = '0';
+                document.getElementById('progressFill').style.width = '0%';
+                return;
+            }
+            let html = ''; let totalF = 0;
+            cart.forEach((item, idx) => {
+                totalF += item.final;
+                html += `<div class="cart-item"><div class="info"><h4>${item.name} (${item.color})</h4><p>${item.final.toFixed(2)}€</p></div><button onclick="removeFromCart(${idx})" style="background:none;border:none;color:#ff3b30;font-size:20px;cursor:pointer;">&times;</button></div>`;
+            });
+            c.innerHTML = html;
+            document.getElementById('cartTotal').textContent = totalF.toFixed(2) + '€';
+            document.getElementById('cartCount').textContent = cart.length;
+            document.getElementById('progressFill').style.width = '100%';
+        }
+
+        function removeFromCart(i) { cart.splice(i, 1); updateCartUI(); }
+        function toggleCart() {
+            const o = document.getElementById('cartOverlay'); const s = document.getElementById('cartSidebar');
+            if (o.style.display === 'block') { o.style.display = 'none'; s.classList.remove('open'); } else { o.style.display = 'block'; s.classList.add('open'); }
+        }
+
+        function redirectToPayment() {
+            if (!cart.length) return;
+            document.getElementById('paymentLoader').classList.add('active');
+            let url = '';
+            const hasProMax = cart.some(i => i.name.includes('Pro Max'));
+            const has17 = cart.some(i => i.name.includes('iPhone 17') && !i.name.includes('Pro Max'));
+
+            if (hasProMax && has17) url = 'https://2wthbd-ws.myshopify.com/cart/58236476031321:1,58256072638809:1?checkout';
+            else if (hasProMax) url = 'https://2wthbd-ws.myshopify.com/cart/58256072638809:1?checkout';
+            else if (has17) url = 'https://2wthbd-ws.myshopify.com/cart/58236476031321:1?checkout';
+
+            setTimeout(() => { window.location.href = url; }, 2000);
+        }
+
+        setInterval(() => { if (timer10 > 0) { timer10--; let m = Math.floor(timer10 / 60); let s = timer10 % 60; document.getElementById('timer10min').textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); } }, 1000);
+
+        const rWrapper = document.getElementById('carouselWrapper');
+        let rIdx = 0;
+        document.getElementById('nextBtn').onclick = () => { rIdx = (rIdx + 1) % 3; rWrapper.style.transform = `translateX(-${rIdx * 33.333}%)`; };
+        document.getElementById('prevBtn').onclick = () => { rIdx = (rIdx - 1 + 3) % 3; rWrapper.style.transform = `translateX(-${rIdx * 33.333}%)`; };
+
+        let totalSec = 58 * 60 + 58;
+        setInterval(() => { if (totalSec > 0) totalSec--; let m = Math.floor((totalSec % 3600) / 60); let s = totalSec % 60; document.getElementById('minutes').textContent = String(m).padStart(2, '0'); document.getElementById('seconds').textContent = String(s).padStart(2, '0'); }, 1000);
+
+        const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => obs.observe(el));
+    </script>
+</body>
+</html>
